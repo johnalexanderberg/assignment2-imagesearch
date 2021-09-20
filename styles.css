@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "Bluu Next";
+    src: url(/fonts/bluunext-titling.woff2), url(/fonts/bluunext-titling.woff);
+}
+
+:root{
+    --color-bg: #cfffaf;
+}
+
+.image_grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: #cfffaf;
+    width: 100vw;
+}
+
+img{
+    width: 100%;
+}
