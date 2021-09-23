@@ -1,60 +1,118 @@
-const quoteTag = document.querySelector(".quote");
-const authorTag = document.querySelector(".author");
-const searchButton = document.querySelector("#searchButton");
-inputForm = document.querySelector("#searchInput")
-colorSelector = document.querySelector("#colorsSelector")
+const formTag = document.querySelector('form')
+const inputTag = formTag.querySelector('input')
+const results = document.querySelector('.results')
 
-
-
-
-
-const imageGrid = document.querySelector(".image_grid");
-
+//data
 const apiKey = '23472129-87dbba91496484c11f27a91c2';
-
+const numberOfPlaceholders = 6;
 let data = [];
-let search = "";
-let color = colorSelector.value;
+
+const color = '';
 
 
+//set up page
 
-const getQuote = function () {
+function createPlaceHolder(){
 
-    for(let i = 0; i < data.length ; i++) {
+        //create elements
+        const singleResult = document.createElement('div')
+        singleResult.className = 'single-result'
 
-    const image = document.createElement( "img" ) ;
-    image.src = data[i].largeImageURL;
-    image.alt = "test";
-    imageGrid.appendChild(image)
+        const imageContainer = document.createElement('div')
+        imageContainer.className = 'image'
 
-        if (i === 9){
-            break
-        }
+
+        const title = document.createElement('h2')
+
+        const tags = document.createElement('p')
+
+
+        const loadingTitle = document.createElement('span')
+        loadingTitle.className = 'loading'
+
+        const loadingTags = document.createElement('span')
+        loadingTags.className = 'loading'
+
+
+        // add to DOM
+
+        singleResult.appendChild(imageContainer)
+        title.appendChild(loadingTitle)
+        tags.appendChild(loadingTags)
+        singleResult.appendChild(title)
+        singleResult.appendChild(tags)
+
+    return singleResult;
+
+}
+
+function loadScreen() {
+
+    // create placeholders for loading screen
+    for(let i = 0; i < numberOfPlaceholders; i++) {
+        results.appendChild(createPlaceHolder())
+
+    }
+}
+
+loadScreen();
+
+
+const loadImages = () => {
+
+    // clear results
+    while(results.firstChild) {
+        results.removeChild(results.firstChild);
+    }
+
+    // loop over data
+    for(let i = 0; i < data.length && i < 9; i++) {
+
+        const singleResult = document.createElement('div')
+        singleResult.className = 'single-result'
+
+        const imageContainer = document.createElement( 'div' )
+        const image = document.createElement('img')
+        image.className = 'div'
+        image.src = data[i].largeImageURL;
+        image.alt = "test";
+
+        imageContainer.appendChild(image)
+        singleResult.appendChild(imageContainer)
+        results.appendChild(singleResult)
 
     }
 
+
 }
 
 
-function fetchData() {
+const searchPixabay = (query) => {
 
-
-    fetch("https://pixabay.com/api/?key=23472129-87dbba91496484c11f27a91c2&q="+search+","+color)
+    fetch("https://pixabay.com/api/?key=" +apiKey +"&q="+query+","+color)
         .then((response) => response.json())
         .then((jsonData) => {
             data = jsonData.hits;
-            getQuote();
+            loadImages();
         });
+
+}
+//when we submit the form, get the info from input
+
+const handleSubmit = (event) => {
+
+    // get the info from input
+    const query = inputTag.value
+
+    searchPixabay(query);
+
+    // stop the form from going to the next page
+    event.preventDefault();
+
+
 }
 
 
-function handleClick() {
-    color = colorSelector.value;
-    console.log(colorSelector.value)
-    search = inputForm.value;
-    fetchData();
-}
-
-searchButton.addEventListener('click', handleClick)
 
 
+formTag.addEventListener('submit', handleSubmit)

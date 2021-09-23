@@ -3,9 +3,56 @@
     src: url(/fonts/bluunext-titling.woff2), url(/fonts/bluunext-titling.woff);
 }
 
-:root{
-    --color-bg: #cfffaf;
+:root {
+    --color-grey: #f1f1f1;
 }
+
+body{
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: white;
+    color: black;
+}
+
+/* Form */
+form{
+}
+
+input {
+    font-size: 24px;
+    vertical-align: center;
+    width: 100%;
+    border: none;
+    background-color: var(--color-grey);
+    padding: 16px 24px 16px 24px;
+    outline: none;
+}
+
+/* Search Results */
+section.results{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-gap: 32px 32px;
+    padding: 32px;
+}
+
+div.single-result div.image{
+    background-color: var(--color-grey);
+    height: 400px;
+}
+
+div.single-result span.loading{
+    display: inline-block;
+    background-color: var(--color-grey);
+    height: 12px;
+    width: 75%;
+}
+
+div.single-result p span.loading {
+    width: 30%;
+}
+
 
 .image_grid{
     display: grid;
