@@ -1,11 +1,17 @@
 const formTag = document.querySelector('form')
 const inputTag = formTag.querySelector('input')
 const results = document.querySelector('.results')
+const prevButton = document.querySelector('.previous')
+const nextButton = document.querySelector('.next')
 
 //data
 const apiKey = '23472129-87dbba91496484c11f27a91c2';
 const numberOfPlaceholders = 6;
+const resultsPerPage = 10;
+let currentPage = 1;
+let json = [];
 let data = [];
+let totalHits;
 
 const color = '';
 
@@ -66,7 +72,7 @@ const loadImages = () => {
     }
 
     // loop over data
-    for(let i = 0; i < data.length && i < 9; i++) {
+    for(let i = 0; i < data.length; i++) {
 
         const singleResult = document.createElement('div')
         singleResult.className = 'single-result'
@@ -99,12 +105,15 @@ const loadImages = () => {
 
 const searchPixabay = (query) => {
 
-    fetch("https://pixabay.com/api/?key=" +apiKey +"&q="+query+","+color)
+    fetch("https://pixabay.com/api/?key=" +apiKey +"&q="+query+","+color+"&per_page="+resultsPerPage+"&page="+currentPage)
         .then((response) => response.json())
         .then((jsonData) => {
             data = jsonData.hits;
+            json = jsonData
+            totalHits = jsonData.total
             loadImages();
-            console.log(data)
+            console.log('showing ' +jsonData.hits.length +"of " +totalHits)
+            console.log(jsonData)
         });
 
 }
@@ -128,3 +137,23 @@ const handleSubmit = (event) => {
 
 
 formTag.addEventListener('submit', handleSubmit)
+
+function handleNextClick() {
+
+    currentPage ++;
+    const query = inputTag.value
+    searchPixabay(query)
+
+}
+
+
+function handlePrevClick() {
+
+    currentPage --;
+    const query = inputTag.value
+    searchPixabay(query)
+
+}
+
+nextButton.addEventListener('click', handleNextClick)
+prevButton.addEventListener('click', handlePrevClick)
