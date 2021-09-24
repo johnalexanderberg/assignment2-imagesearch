@@ -1,20 +1,24 @@
 const formTag = document.querySelector('form')
 const inputTag = formTag.querySelector('input')
 const results = document.querySelector('.results')
-const prevButton = document.querySelector('.previous')
-const nextButton = document.querySelector('.next')
+const pagination = document.querySelector('.pagination')
 
 //data
+let nextButton;
+let previousButton;
 const apiKey = '23472129-87dbba91496484c11f27a91c2';
 const numberOfPlaceholders = 6;
 const resultsPerPage = 10;
+let totalHits;
+let numberOfPages = 1;
 let currentPage = 1;
 let json = [];
 let data = [];
-let totalHits;
 
 const color = '';
 
+
+console.log(nextButton)
 
 //set up page
 
@@ -71,6 +75,7 @@ const loadImages = () => {
         results.removeChild(results.firstChild);
     }
 
+
     // loop over data
     for(let i = 0; i < data.length; i++) {
 
@@ -99,6 +104,24 @@ const loadImages = () => {
 
     }
 
+    //add buttons
+    console.log('number of pages =' +numberOfPages +" currentpage = " +currentPage +" ")
+
+    if(previousButton && currentPage === 1){
+        pagination.removeChild(previousButton)
+        previousButton = null;
+    }
+
+    if (numberOfPages > 1 && currentPage < numberOfPages && !nextButton){
+            createNextButton()
+    }
+
+    if(currentPage > 1 && !previousButton ){
+        createPreviousButton()
+    }
+
+
+
 
 }
 
@@ -111,9 +134,11 @@ const searchPixabay = (query) => {
             data = jsonData.hits;
             json = jsonData
             totalHits = jsonData.total
-            loadImages();
+            numberOfPages = Math.ceil(totalHits/resultsPerPage);
             console.log('showing ' +jsonData.hits.length +"of " +totalHits)
             console.log(jsonData)
+            console.log(numberOfPages)
+            loadImages();
         });
 
 }
@@ -155,5 +180,20 @@ function handlePrevClick() {
 
 }
 
-nextButton.addEventListener('click', handleNextClick)
-prevButton.addEventListener('click', handlePrevClick)
+function createNextButton() {
+    nextButton = document.createElement('button')
+    nextButton.className = 'next';
+    nextButton.textContent = 'Next Page';
+    nextButton.addEventListener('click', handleNextClick)
+    pagination.appendChild(nextButton)
+}
+
+
+function createPreviousButton() {
+    previousButton = document.createElement('button')
+    previousButton.className = 'previous';
+    previousButton.textContent = 'Previous Page';
+    previousButton.addEventListener('click', handlePrevClick)
+    pagination.appendChild(previousButton)
+}
+
