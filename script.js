@@ -77,8 +77,18 @@ const loadImages = () => {
         image.src = data[i].largeImageURL;
         image.alt = "test";
 
+
+        const tags = document.createElement('h2')
+        tags.textContent = data[i].tags
+
+        const createdBy = document.createElement('p')
+        createdBy.textContent = data[i].user
+
+
         imageContainer.appendChild(image)
         singleResult.appendChild(imageContainer)
+        singleResult.appendChild(tags)
+        singleResult.appendChild(createdBy)
         results.appendChild(singleResult)
 
     }
@@ -94,6 +104,7 @@ const searchPixabay = (query) => {
         .then((jsonData) => {
             data = jsonData.hits;
             loadImages();
+            console.log(data)
         });
 
 }
@@ -111,6 +122,7 @@ const handleSubmit = (event) => {
 
 
 }
+
 
 
 
