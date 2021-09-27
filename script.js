@@ -1,12 +1,14 @@
 const formTag = document.querySelector('form')
 const inputTag = formTag.querySelector('input')
 const results = document.querySelector('.results')
-const pagination = document.querySelector('.pagination')
+const paginationContainer = document.querySelector('.pagination_container')
+import { pagination } from '/components/pagination.js'
+import { createPlaceHolder } from '/components/image.js'
 
 //data
+const apiKey = '23472129-87dbba91496484c11f27a91c2';
 let nextButton;
 let previousButton;
-const apiKey = '23472129-87dbba91496484c11f27a91c2';
 const numberOfPlaceholders = 6;
 const resultsPerPage = 10;
 let totalHits;
@@ -18,57 +20,16 @@ let data = [];
 const color = '';
 
 
-console.log(nextButton)
 
-//set up page
+//set up default page
 
-function createPlaceHolder(){
-
-        //create elements
-        const singleResult = document.createElement('div')
-        singleResult.className = 'single-result'
-
-        const imageContainer = document.createElement('div')
-        imageContainer.className = 'image'
-
-
-        const title = document.createElement('h2')
-
-        const tags = document.createElement('p')
-
-
-        const loadingTitle = document.createElement('span')
-        loadingTitle.className = 'loading'
-
-        const loadingTags = document.createElement('span')
-        loadingTags.className = 'loading'
-
-
-        // add to DOM
-
-        singleResult.appendChild(imageContainer)
-        title.appendChild(loadingTitle)
-        tags.appendChild(loadingTags)
-        singleResult.appendChild(title)
-        singleResult.appendChild(tags)
-
-    return singleResult;
-
-}
-
-function loadScreen() {
-
-    // create placeholders for loading screen
     for(let i = 0; i < numberOfPlaceholders; i++) {
         results.appendChild(createPlaceHolder())
 
     }
-}
-
-loadScreen();
 
 
-const loadImages = () => {
+const renderImages = () => {
 
     // clear results
     while(results.firstChild) {
@@ -86,7 +47,7 @@ const loadImages = () => {
         const image = document.createElement('img')
         image.className = 'div'
         image.src = data[i].largeImageURL;
-        image.alt = "test";
+        image.alt = data[i].tags;
 
 
         const tags = document.createElement('h2')
@@ -103,28 +64,31 @@ const loadImages = () => {
         results.appendChild(singleResult)
 
     }
-
-    //add buttons
-    console.log('number of pages =' +numberOfPages +" currentpage = " +currentPage +" ")
-
-    if(previousButton && currentPage === 1){
-        pagination.removeChild(previousButton)
-        previousButton = null;
-    }
-
-    if (numberOfPages > 1 && currentPage < numberOfPages && !nextButton){
-            createNextButton()
-    }
-
-    if(currentPage > 1 && !previousButton ){
-        createPreviousButton()
-    }
-
-
-
-
 }
 
+function updatePage(){
+
+        renderImages()
+        renderPagination()
+}
+
+function handlePageClick(e) {
+    const query = inputTag.value
+    searchPixabay(query);
+    currentPage = e.target.data.index
+    renderImages();
+    renderPagination()
+}
+
+function renderPagination() {
+    while(paginationContainer.firstChild){
+    paginationContainer.removeChild(paginationContainer.firstChild)
+    }
+
+    const paginationElement = pagination(currentPage, numberOfPages, handlePageClick, handleArrowClick)
+
+    paginationContainer.appendChild(paginationElement)
+}
 
 const searchPixabay = (query) => {
 
@@ -138,7 +102,7 @@ const searchPixabay = (query) => {
             console.log('showing ' +jsonData.hits.length +"of " +totalHits)
             console.log(jsonData)
             console.log(numberOfPages)
-            loadImages();
+            updatePage();
         });
 
 }
@@ -157,43 +121,22 @@ const handleSubmit = (event) => {
 
 }
 
-
-
-
-
 formTag.addEventListener('submit', handleSubmit)
 
-function handleNextClick() {
+function handleArrowClick(e) {
 
+    //if prev button
+    if (e.target.data.type === 'next')
     currentPage ++;
     const query = inputTag.value
     searchPixabay(query)
 
-}
+    //if next button
+    if (e.target.data.type === 'prev'){
+        currentPage --;
+        const query = inputTag.value
+        searchPixabay(query)
+    }
 
-
-function handlePrevClick() {
-
-    currentPage --;
-    const query = inputTag.value
-    searchPixabay(query)
-
-}
-
-function createNextButton() {
-    nextButton = document.createElement('button')
-    nextButton.className = 'next';
-    nextButton.textContent = 'Next Page';
-    nextButton.addEventListener('click', handleNextClick)
-    pagination.appendChild(nextButton)
-}
-
-
-function createPreviousButton() {
-    previousButton = document.createElement('button')
-    previousButton.className = 'previous';
-    previousButton.textContent = 'Previous Page';
-    previousButton.addEventListener('click', handlePrevClick)
-    pagination.appendChild(previousButton)
 }
 
