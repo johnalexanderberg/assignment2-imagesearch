@@ -33,16 +33,8 @@ export function createPlaceHolder(){
 }
 
 
-const renderImages = () => {
+export const imageElement = (hit) => {
 
-    // clear results
-    while(results.firstChild) {
-        results.removeChild(results.firstChild);
-    }
-
-
-    // loop over data
-    for(let i = 0; i < data.length; i++) {
 
         const singleResult = document.createElement('div')
         singleResult.className = 'single-result'
@@ -50,22 +42,21 @@ const renderImages = () => {
         const imageContainer = document.createElement( 'div' )
         const image = document.createElement('img')
         image.className = 'div'
-        image.src = data[i].largeImageURL;
-        image.alt = data[i].tags;
+        image.src = hit.largeImageURL;
+        image.alt = hit.tags;
 
 
         const tags = document.createElement('h2')
-        tags.textContent = data[i].tags
+        tags.textContent = hit.tags
 
         const createdBy = document.createElement('p')
-        createdBy.textContent = data[i].user
+        createdBy.textContent = "taken by" + hit.user
 
 
         imageContainer.appendChild(image)
         singleResult.appendChild(imageContainer)
         singleResult.appendChild(tags)
         singleResult.appendChild(createdBy)
-        results.appendChild(singleResult)
+        return singleResult;
 
-    }
 }

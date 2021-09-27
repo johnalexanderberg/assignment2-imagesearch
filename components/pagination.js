@@ -16,16 +16,26 @@ export const pagination = (currentPage, totalPages, onPageClick, onArrowClick) =
     const leftArrow = document.createElement('img')
     leftArrow.src = chevronLeftIcon
     leftArrow.alt = "Previous page icon"
-    leftArrow.className = "btn btn-prev"
+
+
+    if(currentPage === 1) {
+        console.log(currentPage)
+        leftArrow.className = "btn btn-prev btn-disabled"
+    } else {
+        leftArrow.className = "btn btn-prev"
+        leftArrow.addEventListener('click', onArrowClick)
+    }
+
+
     leftArrow.data = {type: 'prev'};
-    leftArrow.addEventListener('click', onArrowClick)
+
 
     controls.appendChild(leftArrow)
 
     //individual page buttons
     const startP = Math.max(currentPage-2, 1)
     const numberOfButtons = Math.min(totalPages, 5)
-    const endP = startP+numberOfButtons-1
+    const endP = Math.min(startP+(numberOfButtons-1), totalPages)
 
     for(let i = startP; i <= endP; i++){
 
@@ -44,13 +54,25 @@ export const pagination = (currentPage, totalPages, onPageClick, onArrowClick) =
         controls.appendChild(pageButton)
     }
 
-    //previous page button
+    //next page button
     const rightArrow = document.createElement('img')
     rightArrow.src = chevronRightIcon
     rightArrow.alt = "Next page icon"
-    rightArrow.className = "btn btn-next"
+
+
+
+    if(currentPage === totalPages) {
+        console.log(currentPage)
+        rightArrow.className = "btn btn-next btn-disabled"
+    } else {
+        rightArrow.className = "btn btn-next"
+        rightArrow.addEventListener('click', onArrowClick)
+    }
+
+
+
     rightArrow.data = {type: 'next'};
-    rightArrow.addEventListener('click', onArrowClick)
+    
 
     controls.appendChild(rightArrow)
 

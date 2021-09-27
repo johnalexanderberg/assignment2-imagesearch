@@ -2,22 +2,42 @@ const formTag = document.querySelector('form')
 const inputTag = formTag.querySelector('input')
 const results = document.querySelector('.results')
 const paginationContainer = document.querySelector('.pagination_container')
+const colorsContainer = document.querySelector('.colors_container')
+console.log(colorsContainer)
+
+
+
 import { pagination } from '/components/pagination.js'
-import { createPlaceHolder } from '/components/image.js'
+import { createPlaceHolder, imageElement } from '/components/image.js'
+import { colorMenu, updateColorMenu } from './components/colorMenu.js'
 
 //data
 const apiKey = '23472129-87dbba91496484c11f27a91c2';
-let nextButton;
-let previousButton;
 const numberOfPlaceholders = 6;
 const resultsPerPage = 10;
+
+let query = '';
+
 let totalHits;
 let numberOfPages = 1;
 let currentPage = 1;
 let json = [];
 let data = [];
 
-const color = '';
+let currentColor = '';
+
+
+
+
+const handleColorClick = (e) => {
+    
+    if (e.target.id === currentColor) return
+
+    currentColor = e.target.id
+    updateColorMenu(currentColor);
+
+    searchPixabay()
+}
 
 
 
@@ -27,6 +47,9 @@ const color = '';
         results.appendChild(createPlaceHolder())
 
     }
+
+  
+    colorsContainer.appendChild(colorMenu(handleColorClick))
 
 
 const renderImages = () => {
@@ -40,28 +63,8 @@ const renderImages = () => {
     // loop over data
     for(let i = 0; i < data.length; i++) {
 
-        const singleResult = document.createElement('div')
-        singleResult.className = 'single-result'
-
-        const imageContainer = document.createElement( 'div' )
-        const image = document.createElement('img')
-        image.className = 'div'
-        image.src = data[i].largeImageURL;
-        image.alt = data[i].tags;
-
-
-        const tags = document.createElement('h2')
-        tags.textContent = data[i].tags
-
-        const createdBy = document.createElement('p')
-        createdBy.textContent = data[i].user
-
-
-        imageContainer.appendChild(image)
-        singleResult.appendChild(imageContainer)
-        singleResult.appendChild(tags)
-        singleResult.appendChild(createdBy)
-        results.appendChild(singleResult)
+        const image = imageElement(data[i])
+        results.appendChild(image)
 
     }
 }
@@ -73,11 +76,8 @@ function updatePage(){
 }
 
 function handlePageClick(e) {
-    const query = inputTag.value
-    searchPixabay(query);
     currentPage = e.target.data.index
-    renderImages();
-    renderPagination()
+    searchPixabay()
 }
 
 function renderPagination() {
@@ -90,9 +90,17 @@ function renderPagination() {
     paginationContainer.appendChild(paginationElement)
 }
 
-const searchPixabay = (query) => {
+const searchPixabay = () => {
 
-    fetch("https://pixabay.com/api/?key=" +apiKey +"&q="+query+","+color+"&per_page="+resultsPerPage+"&page="+currentPage)
+    let searchColor = "," +currentColor;
+
+    if (currentColor === 'any'){
+        searchColor = '';
+    }
+    
+
+
+    fetch("https://pixabay.com/api/?key=" +apiKey +"&q="+query+searchColor+ "&per_page="+resultsPerPage+"&page="+currentPage)
         .then((response) => response.json())
         .then((jsonData) => {
             data = jsonData.hits;
@@ -111,9 +119,10 @@ const searchPixabay = (query) => {
 const handleSubmit = (event) => {
 
     // get the info from input
-    const query = inputTag.value
 
-    searchPixabay(query);
+    query = inputTag.value
+    currentPage = 1;
+    searchPixabay();
 
     // stop the form from going to the next page
     event.preventDefault();
@@ -123,20 +132,26 @@ const handleSubmit = (event) => {
 
 formTag.addEventListener('submit', handleSubmit)
 
+
+
+
+
+
+
 function handleArrowClick(e) {
 
     //if prev button
     if (e.target.data.type === 'next')
     currentPage ++;
-    const query = inputTag.value
-    searchPixabay(query)
+
+    searchPixabay()
 
     //if next button
     if (e.target.data.type === 'prev'){
         currentPage --;
-        const query = inputTag.value
-        searchPixabay(query)
+        searchPixabay()
     }
 
 }
+
 
