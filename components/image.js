@@ -50,7 +50,7 @@ export const imageElement = (hit) => {
         tags.textContent = hit.tags
 
         const createdBy = document.createElement('p')
-        createdBy.textContent = "taken by" + hit.user
+        createdBy.textContent = "Provided by: " + hit.user
 
 
         imageContainer.appendChild(image)
