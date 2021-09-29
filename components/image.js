@@ -23,7 +23,7 @@ export const image = (hit) => {
         createdByPlaceholder.className = 'loading'
         createdBy.appendChild(createdByPlaceholder)
     }
-
+    
         singleResult.appendChild(imageContainer)
         singleResult.appendChild(tags)
         singleResult.appendChild(createdBy)

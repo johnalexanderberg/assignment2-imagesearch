@@ -1,13 +1,16 @@
-const htmlFormElement = document.querySelector('form')
-const htmlInputElement = htmlFormElement.querySelector('input')
+//const htmlFormElement = document.querySelector('form')
+//const htmlInputElement = htmlFormElement.querySelector('input')
 const results = document.querySelector('.results')
 const paginationContainer = document.querySelector('.pagination_container')
 const colorsContainer = document.querySelector('.colors_container')
+const header = document.querySelector('header')
+
 
 
 import {pagination} from '/components/pagination.js'
 import {image} from '/components/image.js'
 import {colorMenu, updateColorMenu} from './components/colorMenu.js'
+import {searchBar} from '/components/searchBar.js'
 
 const apiKey = '23472129-87dbba91496484c11f27a91c2';
 const resultsPerPage = 10;
@@ -23,6 +26,7 @@ let data = [];
 // number of placeholders on start page
 data.length = 6;
 
+const colors = ['any', 'red', 'purple', 'blue', 'green']
 let currentColor = '';
 
 const searchPixabay = () => {
@@ -55,7 +59,7 @@ const handleColorClick = (e) => {
     currentColor = e.target.id
     updateColorMenu(currentColor);
 
-    searchPixabay()
+    query && searchPixabay()
 }
 
 function handlePageClick(e) {
@@ -63,15 +67,20 @@ function handlePageClick(e) {
     searchPixabay()
 }
 
-const handleSubmit = (event) => {
+const handleSubmit = (e) => {
     // stop the form from going to the next page
-    event.preventDefault();
+    e.preventDefault();
 
-    // get the info from input
-    query = htmlInputElement.value
     currentPage = 1;
 
+    console.log(query)
     searchPixabay();
+}
+
+const handleInputChange = (e) => {
+
+    query = e.target.value
+
 }
 
 function handleArrowClick(e) {
@@ -109,13 +118,12 @@ function renderPagination() {
     //render new pagination
     const paginationElement = pagination(currentPage, numberOfPages, handlePageClick, handleArrowClick)
 
-    paginationContainer.appendChild(paginationElement)
+    paginationElement && paginationContainer.appendChild(paginationElement)
 }
 
 
-htmlFormElement.addEventListener('submit', handleSubmit)
-
-//load page
-renderImages()
-colorsContainer.appendChild(colorMenu(handleColorClick))
+//create search bar, color menu & load image placeholders
+colorsContainer.appendChild(colorMenu(handleColorClick, colors))
+header.appendChild(searchBar(handleSubmit, handleInputChange, "Search Pixabay..."))
+updatePage()
 

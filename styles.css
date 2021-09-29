@@ -14,7 +14,7 @@ body {
   color: black;
 }
 
-.controls {
+header {
   width: 100%;
   justify-content: stretch;
   flex-grow: 1;
@@ -37,9 +37,18 @@ input {
   outline: none;
 }
 
+@media (max-width: 600px){
+
+  input{
+    font-size: 18px;
+    padding: 8px 12px 8px 12px;
+  }
+}
+
 .colormenu {
   position: absolute;
   right: 0rem;
+  background-color: white;
 }
 
 .color {
@@ -50,8 +59,19 @@ input {
   width: 40px;
   background-color: #cfffaf;
   margin: 8px;
-  opacity: 0.5;
+  opacity: 0.2;
+  transition: 0.3s;
 }
+
+@media (max-width: 600px){
+
+  .color{
+    height: 32px;
+    width: 32px;
+  margin: 4px;
+  }
+}
+
 
 .color:hover {
   opacity: 1;
@@ -62,30 +82,30 @@ input {
 }
 
 #red {
-  background-color: #d24b4b;
+  background-color: #ff0000;
 }
 
 #blue {
-  background-color: #4864ee;
+  background-color: #002cff;
 }
 
 #purple {
-  background-color: #6a49ff;
+  background-color: #aa00ff;
 }
 
 #green {
-  background-color: #79e379;
+  background-color: #10f600;
 }
 
 #any {
   background: linear-gradient(
     to right,
-    orange,
-    yellow,
-    green,
-    cyan,
-    blue,
-    violet
+    #ff8d2f,
+    #ffff3c,
+    #38e338,
+    #72e1e1,
+    #5858ff,
+    #f166c0
   );
 }
 
@@ -119,6 +139,7 @@ img {
   object-fit: cover;
 }
 
+
 .pagination_container {
   width: 100%;
   display: flex;
@@ -130,6 +151,7 @@ img {
   /*border-top: 2px solid black;*/
   /*border-bottom: 2px solid black;*/
   display: flex;
+  margin-bottom: 4rem;
 }
 /* Buttons */
 
@@ -142,23 +164,30 @@ img {
   cursor: pointer;
 }
 
+.btn-disabled {
+  cursor: default;
+  opacity: 0.2;
+}
+
 .btn-page {
   border: 3px solid rgba(255, 255, 255, 0);
   border-radius: 50%;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .btn-page:hover {
-  border-color: black;
+  background-color: #e8e8e8;
+  color: #000000;
 }
 
 .btn-active {
   background-color: black;
   color: white;
-  border: none;
 }
 
-.btn-disabled {
-  cursor: default;
-  opacity: 0.2;
+.btn-active:hover {
+  background-color: #282828;
+  color: white;
 }
+
+
