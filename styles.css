@@ -14,15 +14,11 @@ body {
   color: black;
 }
 
-
-
-
-@media (max-width: 600px){
-
-  body{
+@media (max-width: 600px) {
+  body {
     font-size: 14px;
   }
-  h2{
+  h2 {
     font-size: 18px;
   }
 }
@@ -43,18 +39,17 @@ header {
 input {
   font-size: 24px;
   vertical-align: center;
-  width: 100%;
+  width: 95%;
   border: none;
   background-color: var(--color-grey);
-  padding: 16px 24px 16px 24px;
+  padding: 16px 0px 16px 24px;
   outline: none;
 }
 
-@media (max-width: 600px){
-
-  input{
+@media (max-width: 600px) {
+  input {
     font-size: 18px;
-    padding: 8px 12px 8px 12px;
+    padding: 8px 0px 8px 12px;
   }
 }
 
@@ -76,15 +71,13 @@ input {
   transition: 0.3s;
 }
 
-@media (max-width: 600px){
-
-  .color{
+@media (max-width: 600px) {
+  .color {
     height: 32px;
     width: 32px;
-  margin: 4px;
+    margin: 4px;
   }
 }
-
 
 .color:hover {
   opacity: 1;
@@ -130,7 +123,7 @@ section.results {
   padding: 32px;
 }
 
-.single-result{
+.single-result {
   padding: 1rem;
   box-shadow: 0 0 32px 0px #cbcbcb;
 }
@@ -138,6 +131,7 @@ section.results {
 div.single-result div.image {
   background-color: var(--color-grey);
   height: 400px;
+  cursor: pointer;
 }
 
 div.single-result span.loading {
@@ -156,7 +150,6 @@ img {
   width: 100%;
   object-fit: cover;
 }
-
 
 .pagination_container {
   width: 100%;
@@ -208,8 +201,7 @@ img {
   color: white;
 }
 
-.modal{
-
+.modal {
   content: "";
   position: fixed;
   top: 0;
@@ -234,4 +226,3 @@ img {
 .blurred {
   filter: blur(4px);
 }
-

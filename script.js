@@ -83,7 +83,6 @@ const handleSubmit = (e) => {
 
     currentPage = 1;
 
-    console.log(query)
     searchPixabay();
 }
 
@@ -109,7 +108,6 @@ const handleImageClick = (e) => {
 
     main.className = "blurred";
     const m = modal(e.target.src, handleModalClick);
-    console.log(m)
 
     document.body.appendChild(m)
 }
@@ -148,7 +146,6 @@ function renderPagination() {
 
 
 function handleResize() {
-    console.log(document.body.clientWidth)
 
     if (document.body.clientWidth > 900 && previousWindowSize < 900){
         renderPagination()
