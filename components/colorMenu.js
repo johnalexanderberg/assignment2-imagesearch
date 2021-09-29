@@ -2,11 +2,8 @@ const colorButtons = [];
 
 export const colorMenu = (colorClick, colors) => {
 
-
-
     const colorMenu = document.createElement('div')
     colorMenu.className = ('colormenu')
-
 
     colors.forEach(color => {
         const colorButton = document.createElement('span')

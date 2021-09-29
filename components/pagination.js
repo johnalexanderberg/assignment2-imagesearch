@@ -22,8 +22,11 @@ export const pagination = (currentPage, totalPages, onPageClick, onArrowClick) =
     pagination.appendChild(leftArrow)
 
     //individual page buttons
-    const startP = Math.max(currentPage - 2, 1)
-    const numberOfButtons = Math.min(totalPages, 5)
+
+
+    const numberOfButtons = document.body.clientWidth > 900 ? Math.min(totalPages, 10) : Math.min(totalPages, 5)
+
+    const startP = Math.max(currentPage - Math.round(numberOfButtons/2-1), 1)
     const endP = Math.min(startP + (numberOfButtons - 1), totalPages)
 
     for (let i = startP; i <= endP; i++) {

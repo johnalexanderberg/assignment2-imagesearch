@@ -14,6 +14,19 @@ body {
   color: black;
 }
 
+
+
+
+@media (max-width: 600px){
+
+  body{
+    font-size: 14px;
+  }
+  h2{
+    font-size: 18px;
+  }
+}
+
 header {
   width: 100%;
   justify-content: stretch;
@@ -117,6 +130,11 @@ section.results {
   padding: 32px;
 }
 
+.single-result{
+  padding: 1rem;
+  box-shadow: 0 0 32px 0px #cbcbcb;
+}
+
 div.single-result div.image {
   background-color: var(--color-grey);
   height: 400px;
@@ -190,4 +208,30 @@ img {
   color: white;
 }
 
+.modal{
+
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.49);
+  z-index: 1;
+}
+
+.modal-image {
+  background-color: white;
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.blurred {
+  filter: blur(4px);
+}
 

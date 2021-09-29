@@ -1,4 +1,4 @@
-export const image = (hit) => {
+export const image = (hit, handleClick) => {
 
         const singleResult = document.createElement('div')
         singleResult.className = 'single-result'
@@ -13,6 +13,7 @@ export const image = (hit) => {
         image.alt = hit.tags;
         tags.textContent = hit.tags
         createdBy.textContent = "Provided by: " + hit.user
+        image.addEventListener('click', handleClick)
         imageContainer.appendChild(image)
 
     } else { // else load placeholders

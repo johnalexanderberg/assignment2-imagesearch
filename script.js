@@ -1,9 +1,8 @@
-//const htmlFormElement = document.querySelector('form')
-//const htmlInputElement = htmlFormElement.querySelector('input')
 const results = document.querySelector('.results')
 const paginationContainer = document.querySelector('.pagination_container')
 const colorsContainer = document.querySelector('.colors_container')
 const header = document.querySelector('header')
+const main = document.querySelector('main');
 
 
 
@@ -11,12 +10,14 @@ import {pagination} from '/components/pagination.js'
 import {image} from '/components/image.js'
 import {colorMenu, updateColorMenu} from './components/colorMenu.js'
 import {searchBar} from '/components/searchBar.js'
+import {modal} from '/components/modal.js'
 
 const apiKey = '23472129-87dbba91496484c11f27a91c2';
 const resultsPerPage = 10;
 
 let query = '';
 
+let previousWindowSize = document.body.clientWidth;
 let totalHits;
 let numberOfPages = 1;
 let currentPage = 1;
@@ -38,7 +39,15 @@ const searchPixabay = () => {
         searchColor = '';
     }
 
-    fetch("https://pixabay.com/api/?key=" + apiKey + "&q=" + query + searchColor + "&per_page=" + resultsPerPage + "&page=" + currentPage)
+    const params = new URLSearchParams({
+        key: apiKey,
+        q: query + searchColor,
+        per_page: resultsPerPage,
+        page: currentPage,
+    });
+
+
+    fetch("https://pixabay.com/api/?" + params.toString())
         .then((response) => response.json())
         .then((jsonData) => {
             data = jsonData.hits;
@@ -49,6 +58,7 @@ const searchPixabay = () => {
         });
 
 }
+
 
 // event handlers
 
@@ -90,6 +100,20 @@ function handleArrowClick(e) {
 
 }
 
+function handleModalClick(e) {
+    document.body.removeChild(e.target)
+    main.className = "";
+}
+
+const handleImageClick = (e) => {
+
+    main.className = "blurred";
+    const m = modal(e.target.src, handleModalClick);
+    console.log(m)
+
+    document.body.appendChild(m)
+}
+
 const renderImages = () => {
     // clear results
     while (results.firstChild) {
@@ -98,7 +122,8 @@ const renderImages = () => {
 
     // render new results
     for (let i = 0; i < data.length; i++) {
-        results.appendChild(image(data[i]))
+        const imageElement = image(data[i], handleImageClick)
+        results.appendChild(imageElement)
     }
 }
 
@@ -122,7 +147,22 @@ function renderPagination() {
 }
 
 
+function handleResize() {
+    console.log(document.body.clientWidth)
+
+    if (document.body.clientWidth > 900 && previousWindowSize < 900){
+        renderPagination()
+        previousWindowSize = document.body.clientWidth
+    }
+
+    if (document.body.clientWidth < 900 && previousWindowSize > 900){
+        renderPagination()
+        previousWindowSize = document.body.clientWidth
+    }
+}
+
 //create search bar, color menu & load image placeholders
+window.addEventListener('resize', handleResize)
 colorsContainer.appendChild(colorMenu(handleColorClick, colors))
 header.appendChild(searchBar(handleSubmit, handleInputChange, "Search Pixabay..."))
 updatePage()
