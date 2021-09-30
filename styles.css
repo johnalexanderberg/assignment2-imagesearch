@@ -142,6 +142,12 @@ div.single-result div.image {
   cursor: pointer;
 }
 
+@media screen and (max-width: 600px){
+  div.single-result div.image {
+    height: auto;
+  }
+}
+
 div.single-result span.loading {
   display: inline-block;
   background-color: var(--color-grey);
