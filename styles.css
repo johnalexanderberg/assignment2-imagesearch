@@ -73,8 +73,8 @@ input {
 
 @media (max-width: 600px) {
   .color {
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
     margin: 4px;
   }
 }
@@ -144,9 +144,11 @@ div.single-result div.image {
 
 @media screen and (max-width: 600px){
   div.single-result div.image {
-    height: auto;
+    height: 300px;
   }
 }
+
+
 
 div.single-result span.loading {
   display: inline-block;
@@ -163,6 +165,12 @@ img {
   height: 400px;
   width: 100%;
   object-fit: cover;
+}
+
+@media screen and (max-width: 600px){
+  img {
+    height: 300px;
+  }
 }
 
 .pagination_container {

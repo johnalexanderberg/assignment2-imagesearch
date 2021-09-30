@@ -6,8 +6,8 @@ const main = document.querySelector('main');
 
 
 
-import {pagination} from '/components/pagination.js'
-import {image} from '/components/image.js'
+import {pagination} from './components/pagination.js'
+import {image} from './components/image.js'
 import {colorMenu, updateColorMenu} from './components/colorMenu.js'
 import {searchBar} from './components/searchBar.js'
 import {modal} from './components/modal.js'
@@ -75,6 +75,7 @@ const handleColorClick = (e) => {
     currentColor = e.target.id
     updateColorMenu(currentColor);
 
+    currentPage = 1;
     query && searchPixabay()
 }
 
@@ -107,6 +108,12 @@ function handleArrowClick(e) {
 
 function handleModalClick(e) {
 
+    //do nothing if the click happened within the image
+   if (e.target.className === ('modal-image')){
+       return
+   }
+
+   //else remove modal & background blur
     document.body.removeChild(e.target)
     main.className = "";
 }
