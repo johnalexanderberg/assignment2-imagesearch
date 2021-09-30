@@ -6,8 +6,8 @@ const main = document.querySelector('main');
 
 
 
-import {pagination} from './components/pagination.js'
-import {image} from './components/image.js'
+import {pagination} from '/components/pagination.js'
+import {image} from '/components/image.js'
 import {colorMenu, updateColorMenu} from './components/colorMenu.js'
 import {searchBar} from './components/searchBar.js'
 import {modal} from './components/modal.js'
@@ -21,11 +21,10 @@ let previousWindowSize = document.body.clientWidth;
 let totalHits;
 let numberOfPages = 1;
 let currentPage = 1;
-let json = [];
-let data = [];
+let hits = [];
 
-// number of placeholders on start page
-data.length = 6;
+// number of empty images on start page
+hits.length = 6;
 
 const colors = ['any', 'red', 'purple', 'blue', 'green']
 let currentColor = '';
@@ -50,12 +49,19 @@ const searchPixabay = () => {
     fetch("https://pixabay.com/api/?" + params.toString())
         .then((response) => response.json())
         .then((jsonData) => {
-            data = jsonData.hits;
-            json = jsonData
+            hits = jsonData.hits;
             totalHits = jsonData.total
             numberOfPages = Math.ceil(totalHits / resultsPerPage);
+
+            console.log('data: ', hits)
+            console.log(totalHits)
+            console.log(resultsPerPage)
+            console.log(numberOfPages)
+
+
             updatePage();
         });
+
 
 }
 
@@ -100,6 +106,7 @@ function handleArrowClick(e) {
 }
 
 function handleModalClick(e) {
+
     document.body.removeChild(e.target)
     main.className = "";
 }
@@ -119,8 +126,8 @@ const renderImages = () => {
     }
 
     // render new results
-    for (let i = 0; i < data.length; i++) {
-        const imageElement = image(data[i], handleImageClick)
+    for (let i = 0; i < hits.length; i++) {
+        const imageElement = image(hits[i], handleImageClick)
         results.appendChild(imageElement)
     }
 }
@@ -138,8 +145,8 @@ function renderPagination() {
         paginationContainer.removeChild(paginationContainer.firstChild)
     }
 
-    //render new pagination
-    const paginationElement = pagination(currentPage, numberOfPages, handlePageClick, handleArrowClick)
+    //render new pagination (for max 500 results because of pixabay limit)
+    const paginationElement = pagination(currentPage, Math.min(numberOfPages, 500/resultsPerPage), handlePageClick, handleArrowClick)
 
     paginationElement && paginationContainer.appendChild(paginationElement)
 }

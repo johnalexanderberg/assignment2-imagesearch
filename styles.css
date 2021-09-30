@@ -123,9 +123,17 @@ section.results {
   padding: 32px;
 }
 
+@media screen and (max-width: 600px){
+  section.results{
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 16px 16px;
+    padding: 16px;
+  }
+}
+
 .single-result {
   padding: 1rem;
-  box-shadow: 0 0 32px 0px #cbcbcb;
+  box-shadow: 0 0 32px 0px rgba(203, 203, 203, 0.35);
 }
 
 div.single-result div.image {
