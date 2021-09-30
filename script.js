@@ -37,6 +37,7 @@ const searchPixabay = () => {
     if (currentColor === 'any') {
         searchColor = '';
     }
+    
 
     const params = new URLSearchParams({
         key: apiKey,
@@ -52,12 +53,6 @@ const searchPixabay = () => {
             hits = jsonData.hits;
             totalHits = jsonData.total
             numberOfPages = Math.ceil(totalHits / resultsPerPage);
-
-            console.log('data: ', hits)
-            console.log(totalHits)
-            console.log(resultsPerPage)
-            console.log(numberOfPages)
-
 
             updatePage();
         });
@@ -131,12 +126,27 @@ const renderImages = () => {
     while (results.firstChild) {
         results.removeChild(results.firstChild);
     }
+    const errormessage = document.querySelector('.noresults')
+    if (errormessage)
+    {
+        document.body.removeChild(errormessage)
+    }
 
     // render new results
-    for (let i = 0; i < hits.length; i++) {
-        const imageElement = image(hits[i], handleImageClick)
-        results.appendChild(imageElement)
+    if (hits.length === 0) {
+        
+        const response = document.createElement('p')
+        document.body.appendChild(response)
+        response.className='noresults'
+        response.textContent = 'Your search was unsuccessful please try again!'
     }
+    else {
+        for (let i = 0; i < hits.length; i++) {
+            const imageElement = image(hits[i], handleImageClick)
+            results.appendChild(imageElement)
+        }
+    }
+    
 }
 
 function updatePage() {
