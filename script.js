@@ -6,11 +6,11 @@ const main = document.querySelector('main');
 
 
 
-import {pagination} from '/components/pagination.js'
-import {image} from '/components/image.js'
+import {pagination} from './components/pagination.js'
+import {image} from './components/image.js'
 import {colorMenu, updateColorMenu} from './components/colorMenu.js'
-import {searchBar} from '/components/searchBar.js'
-import {modal} from '/components/modal.js'
+import {searchBar} from './components/searchBar.js'
+import {modal} from './components/modal.js'
 
 const apiKey = '23472129-87dbba91496484c11f27a91c2';
 const resultsPerPage = 10;
