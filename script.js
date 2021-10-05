@@ -32,20 +32,12 @@ let currentColor = '';
 
 const searchPixabay = () => {
 
-    let searchColor = currentColor;
-
-    //empty string will search for any color
-    if (currentColor === 'any') {
-        searchColor = '';
-    }
-    
-
     const params = new URLSearchParams({
         key: apiKey,
         q: query,
         per_page: resultsPerPage,
         page: currentPage,
-        colors: searchColor
+        colors: currentColor === 'any' ? null : currentColor,
     });
 
     console.log(params)
@@ -72,9 +64,10 @@ const handleColorClick = (e) => {
     if (e.target.id === currentColor) return
 
     currentColor = e.target.id
-    updateColorMenu(currentColor);
+    updateColorMenu(currentColor, e.target.parentNode);
 
     query = currentSearchValue
+
     currentPage = 1;
     query && searchPixabay()
 }
@@ -86,11 +79,9 @@ function handlePageClick(e) {
 
 const handleSubmit = (e) => {
     // stop the form from going to the next page
-    //query = e.target.value
     e.preventDefault();
 
     query = document.querySelector('input').value
-    console.log(query)
 
     currentPage = 1;
 

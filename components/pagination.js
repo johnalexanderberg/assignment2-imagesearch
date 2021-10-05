@@ -23,17 +23,13 @@ export const pagination = (currentPage, totalPages, onPageClick, onArrowClick) =
 
     //individual page buttons
 
-
     const numberOfButtons = document.body.clientWidth > 900 ? Math.min(totalPages, 10) : Math.min(totalPages, 5)
 
     let startP = Math.max(currentPage - Math.round(numberOfButtons/2-1), 1)
     const endP = Math.min(startP + (numberOfButtons - 1), totalPages)
 
-    //make sure to display all buttons when browsing the last few pages
-    if (totalPages > numberOfButtons && currentPage > totalPages-numberOfButtons/2-1) {
-        startP = totalPages - numberOfButtons;
-    }
-
+    //make sure to display the full list of buttons when browsing the last few pages
+    startP = Math.min(startP, Math.max(totalPages - numberOfButtons, 1))
 
     for (let i = startP; i <= endP; i++) {
 
