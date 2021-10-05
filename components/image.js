@@ -17,6 +17,7 @@ export const image = (hit, handleClick) => {
         imageContainer.appendChild(image)
 
     } else { // else load placeholders
+        singleResult.className += ' loading'
         const tagsPlaceholder = document.createElement('span')
         tagsPlaceholder.className = 'loading'
         tags.appendChild(tagsPlaceholder)

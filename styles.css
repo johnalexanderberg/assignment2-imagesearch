@@ -87,6 +87,7 @@ input {
 button.color {
   border: none;
   outline: none;
+  cursor: pointer;
 }
 
 .color:hover {
@@ -148,6 +149,10 @@ section.results {
 .single-result {
   padding: 1rem;
   box-shadow: 0 0 32px 0px rgba(203, 203, 203, 0.35);
+}
+
+.loading {
+  box-shadow: none;
 }
 
 div.single-result div.image {
