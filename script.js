@@ -16,6 +16,7 @@ const apiKey = '23472129-87dbba91496484c11f27a91c2';
 const resultsPerPage = 10;
 
 let query = '';
+let currentSearchValue = '';
 
 let previousWindowSize = document.body.clientWidth;
 let totalHits;
@@ -26,12 +27,12 @@ let hits = [];
 // number of empty images on start page
 hits.length = 6;
 
-const colors = ['any', 'red', 'purple', 'blue', 'green']
+const colors = ['any', 'red', 'lilac', 'blue', 'green']
 let currentColor = '';
 
 const searchPixabay = () => {
 
-    let searchColor = "," + currentColor;
+    let searchColor = currentColor;
 
     //empty string will search for any color
     if (currentColor === 'any') {
@@ -41,10 +42,13 @@ const searchPixabay = () => {
 
     const params = new URLSearchParams({
         key: apiKey,
-        q: query + searchColor,
+        q: query,
         per_page: resultsPerPage,
         page: currentPage,
+        colors: searchColor
     });
+
+    console.log(params)
 
 
     fetch("https://pixabay.com/api/?" + params.toString())
@@ -70,6 +74,7 @@ const handleColorClick = (e) => {
     currentColor = e.target.id
     updateColorMenu(currentColor);
 
+    query = currentSearchValue
     currentPage = 1;
     query && searchPixabay()
 }
@@ -81,7 +86,11 @@ function handlePageClick(e) {
 
 const handleSubmit = (e) => {
     // stop the form from going to the next page
+    //query = e.target.value
     e.preventDefault();
+
+    query = document.querySelector('input').value
+    console.log(query)
 
     currentPage = 1;
 
@@ -90,7 +99,7 @@ const handleSubmit = (e) => {
 
 const handleInputChange = (e) => {
 
-    query = e.target.value
+    currentSearchValue = e.target.value
 
 }
 
